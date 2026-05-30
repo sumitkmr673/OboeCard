@@ -5,6 +5,8 @@ import compression from "compression";
 import morgan from "morgan";
 import "dotenv/config";
 import authRoutes from "./routes/auth.js";
+import cardRoutes from "./routes/cards.js";
+import progressRoutes from "./routes/progress.js";
 import { errorHandler } from "./middleware/auth.js";
 
 const app = express();
@@ -30,11 +32,8 @@ app.get("/health", (req, res) => {
 
 // Routes
 app.use("/api/auth", authRoutes);
-
-// TODO: Add routes
-// app.use('/api/cards', cardRoutes);
-// app.use('/api/progress', progressRoutes);
-// app.use('/api/users', userRoutes);
+app.use("/api/cards", cardRoutes);
+app.use("/api/progress", progressRoutes);
 
 // Error handling
 app.use(errorHandler);
