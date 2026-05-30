@@ -1,0 +1,24 @@
+{
+	"name": "flashcard-platform",
+	"version": "1.0.0",
+	"description": "Japanese Language Learning Platform with Hiragana, Katakana, and Kanji flashcards",
+	"private": true,
+	"workspaces": [
+		"backend",
+		"web",
+		"mobile"
+	],
+	"scripts": {
+		"dev": "npm run dev --workspaces",
+		"build": "npm run build --workspaces",
+		"start": "npm start --workspaces",
+		"lint": "npm run lint --workspaces",
+		"type-check": "npm run type-check --workspaces",
+		"dev:backend": "npm run dev -w backend",
+		"dev:web": "npm run dev -w web",
+		"dev:mobile": "npm run dev -w mobile"
+	},
+	"devDependencies": {
+		"typescript": "^6.0.0"
+	}
+}

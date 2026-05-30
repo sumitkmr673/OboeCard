@@ -1,0 +1,246 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ============ USERS & AUTH ============
+
+model User {
+  id              String          @id @default(cuid())
+  email           String          @unique
+  username        String          @unique
+  passwordHash    String
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  // Profile
+  avatar          String?
+  nativeLanguage  String          @default("en")
+  
+  // Learning Progress
+  currentLevel    Int             @default(1)
+  totalXP         Int             @default(0)
+  currentJLPT     String          @default("N5") // N5, N4, N3, N2, N1
+  
+  // Streaks & Stats
+  dailyStreak     Int             @default(0)
+  longestStreak   Int             @default(0)
+  lastStudiedAt   DateTime?
+  
+  // Relationships
+  cardProgress    CardProgress[]
+  studySessions   StudySession[]
+  userStats       UserStats?
+  achievements    Achievement[]
+  decks           Deck[]
+  
+  @@index([email])
+  @@index([username])
+}
+
+model UserStats {
+  id                    String    @id @default(cuid())
+  userId                String    @unique
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  cardsStudied          Int       @default(0)
+  cardsMastered         Int       @default(0)
+  totalStudyMinutes     Int       @default(0)
+  correctAnswers        Int       @default(0)
+  totalAnswers          Int       @default(0)
+  averageAccuracy       Float     @default(0)
+  
+  lastUpdated           DateTime  @default(now()) @updatedAt
+}
+
+// ============ CARDS & CONTENT ============
+
+model Card {
+  id              String          @id @default(cuid())
+  type            CardType        // HIRAGANA | KATAKANA | KANJI | VOCAB | PHRASE
+  level           Int             // 1-100+
+  jlptLevel       String?         // N5, N4, N3, N2, N1 (null for hiragana/katakana)
+  
+  // Front (what user sees)
+  character       String          // あ, ア, 漢, etc
+  romaji          String          // a, a, kan, etc
+  reading         String          // あ, ア, かん, etc
+  
+  // Back (explanation)
+  meaning         String?         // English meaning
+  examples        String[]        // JSON array of example sentences
+  
+  // Kanji specific
+  strokeCount     Int?
+  strokeOrder     String?         // URL or SVG path
+  mnemonics       String?
+  radicals        String[]?       // For kanji decomposition
+  
+  // Metadata
+  frequency       ContentFrequency  @default(COMMON) // COMMON | INTERMEDIATE | RARE
+  tags            String[]        // ["hiragana", "vowels", "business", etc]
+  audioUrl        String?         // Pronunciation audio
+  
+  // Content management
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  // Relationships
+  cardProgress    CardProgress[]
+  deckCards       DeckCard[]
+  
+  @@index([type, level])
+  @@index([jlptLevel])
+  @@index([frequency])
+}
+
+enum CardType {
+  HIRAGANA
+  KATAKANA
+  KANJI
+  VOCABULARY
+  PHRASE
+}
+
+enum ContentFrequency {
+  COMMON
+  INTERMEDIATE
+  RARE
+}
+
+// ============ USER PROGRESS & SRS ============
+
+model CardProgress {
+  id              String          @id @default(cuid())
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cardId          String
+  card            Card            @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  
+  // SRS Algorithm (SM2)
+  interval        Int             @default(0)      // Days until next review
+  easeFactor      Float           @default(2.5)    // Difficulty multiplier
+  repetitions     Int             @default(0)      // How many times answered correctly in a row
+  
+  // Progress Tracking
+  masteryLevel    Float           @default(0)      // 0-100%
+  attempts        Int             @default(0)
+  correctCount    Int             @default(0)
+  wrongCount      Int             @default(0)
+  
+  // Timestamps
+  createdAt       DateTime        @default(now())
+  lastReviewedAt  DateTime?
+  nextReviewDue   DateTime?
+  
+  // Status
+  status          ReviewStatus    @default(NEW)    // NEW | LEARNING | REVIEW | MASTERED
+  
+  @@unique([userId, cardId])
+  @@index([userId, nextReviewDue]) // For efficient SRS query
+  @@index([status])
+}
+
+enum ReviewStatus {
+  NEW
+  LEARNING
+  REVIEW
+  MASTERED
+}
+
+model StudySession {
+  id              String          @id @default(cuid())
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  startedAt       DateTime        @default(now())
+  endedAt         DateTime?
+  durationMinutes Int?            // Calculated when session ends
+  
+  cardsReviewed   Int             @default(0)
+  correctAnswers  Int             @default(0)
+  accuracy        Float?          // correctAnswers / cardsReviewed * 100
+  
+  sessionDetails  SessionDetail[]
+  
+  @@index([userId, startedAt])
+}
+
+model SessionDetail {
+  id              String          @id @default(cuid())
+  sessionId       String
+  session         StudySession    @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  cardId          String
+  
+  reviewedAt      DateTime        @default(now())
+  userAnswer      String          // What user typed/selected
+  isCorrect       Boolean
+  responseTime    Int             // Milliseconds
+}
+
+// ============ DECKS & COLLECTIONS ============
+
+model Deck {
+  id              String          @id @default(cuid())
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  name            String
+  description     String?
+  isPublic        Boolean         @default(false)
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  // Relationships
+  cards           DeckCard[]
+  
+  @@index([userId])
+}
+
+model DeckCard {
+  id              String          @id @default(cuid())
+  deckId          String
+  deck            Deck            @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  cardId          String
+  card            Card            @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  
+  order           Int             // For custom ordering
+  
+  @@unique([deckId, cardId])
+  @@index([deckId])
+}
+
+// ============ GAMIFICATION ============
+
+model Achievement {
+  id              String          @id @default(cuid())
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  type            AchievementType // HIRAGANA_MASTER, JLPT_N5_READY, 7_DAY_STREAK, etc
+  unlockedAt      DateTime        @default(now())
+  
+  @@unique([userId, type])
+  @@index([userId])
+}
+
+enum AchievementType {
+  HIRAGANA_MASTER
+  KATAKANA_MASTER
+  JLPT_N5_READY
+  JLPT_N4_READY
+  JLPT_N3_READY
+  JLPT_N2_READY
+  JLPT_N1_READY
+  SEVEN_DAY_STREAK
+  THIRTY_DAY_STREAK
+  HUNDRED_CARDS_MASTERED
+}

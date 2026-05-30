@@ -1,0 +1,40 @@
+{
+	"name": "flashcard-mobile",
+	"version": "1.0.0",
+	"description": "React Native Expo app for Flashcard Platform",
+	"main": "expo-router/entry",
+	"scripts": {
+		"start": "expo start",
+		"android": "expo start --android",
+		"ios": "expo start --ios",
+		"web": "expo start --web",
+		"eject": "expo eject",
+		"type-check": "tsc --noEmit"
+	},
+	"dependencies": {
+		"react-native": "0.84.0",
+		"expo": "~55.0.0",
+		"expo-router": "~3.5.0",
+		"expo-status-bar": "~1.12.1",
+		"expo-sqlite": "~14.0.0",
+		"expo-notifications": "~0.28.0",
+		"react": "18.3.1",
+		"react-dom": "18.3.1",
+		"@react-navigation/native": "^7.0.0",
+		"@react-navigation/bottom-tabs": "^7.0.0",
+		"@react-navigation/stack": "^7.0.0",
+		"redux": "^5.0.0",
+		"@reduxjs/toolkit": "^2.2.0",
+		"react-redux": "^9.0.0",
+		"axios": "^1.7.2",
+		"@react-native-async-storage/async-storage": "^1.21.0",
+		"typescript": "^6.0.0"
+	},
+	"devDependencies": {
+		"@types/node": "^22.0.0",
+		"@types/react": "18.3.1",
+		"@types/react-native": "^0.84.0",
+		"typescript": "^6.0.0"
+	},
+	"private": true
+}
