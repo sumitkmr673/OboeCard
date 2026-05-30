@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { verifyAccessToken } from "../utils/jwt.js";
+import { verifyAccessToken } from "../utils/jwt.ts";
 
 declare global {
 	namespace Express {
@@ -37,9 +37,9 @@ export function authMiddleware(
 
 export function errorHandler(
 	err: any,
-	req: Request,
+	_req: Request,
 	res: Response,
-	next: NextFunction,
+	_next: NextFunction,
 ): void {
 	console.error("Error:", err);
 

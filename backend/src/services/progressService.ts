@@ -3,8 +3,7 @@ import {
 	calculateSRS,
 	getNextReviewDate,
 	calculateMastery,
-} from "../utils/srs.js";
-import { addToSRSQueue, removeFromSRSQueue } from "../utils/redis.js";
+} from "../utils/srs.ts";
 
 const prisma = new PrismaClient();
 
@@ -58,7 +57,7 @@ export async function recordCardReview(userId: string, review: ReviewInput) {
 	const newMastery = calculateMastery(newCorrectCount, newAttempts);
 
 	// Determine status
-	let newStatus = "LEARNING";
+	let newStatus: "LEARNING" | "REVIEW" | "MASTERED" = "LEARNING";
 	if (newMastery >= 80) {
 		newStatus = "REVIEW";
 	}

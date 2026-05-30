@@ -3,8 +3,8 @@ import {
 	reviewCard,
 	startSession,
 	endSession,
-} from "../controllers/progressController.js";
-import { authMiddleware } from "../middleware/auth.js";
+} from "../controllers/progressController.ts";
+import { authMiddleware } from "../middleware/auth.ts";
 
 const router = Router();
 

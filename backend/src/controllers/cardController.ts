@@ -5,7 +5,7 @@ import {
 	getUserDueCards,
 	getNewCardsForUser,
 	getUserLevelProgress,
-} from "../services/cardService.js";
+} from "../services/cardService.ts";
 
 export async function getCards(req: Request, res: Response): Promise<void> {
 	try {

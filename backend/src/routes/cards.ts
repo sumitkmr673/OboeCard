@@ -5,8 +5,8 @@ import {
 	getDueCards,
 	getNewCards,
 	getLevelProgress,
-} from "../controllers/cardController.js";
-import { authMiddleware } from "../middleware/auth.js";
+} from "../controllers/cardController.ts";
+import { authMiddleware } from "../middleware/auth.ts";
 
 const router = Router();
 

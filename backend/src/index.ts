@@ -4,10 +4,10 @@ import helmet from "helmet";
 import compression from "compression";
 import morgan from "morgan";
 import "dotenv/config";
-import authRoutes from "./routes/auth.js";
-import cardRoutes from "./routes/cards.js";
-import progressRoutes from "./routes/progress.js";
-import { errorHandler } from "./middleware/auth.js";
+import authRoutes from "./routes/auth.ts";
+import cardRoutes from "./routes/cards.ts";
+import progressRoutes from "./routes/progress.ts";
+import { errorHandler } from "./middleware/auth.ts";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -26,7 +26,7 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 // Health check
-app.get("/health", (req, res) => {
+app.get("/health", (_req, res) => {
 	res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 

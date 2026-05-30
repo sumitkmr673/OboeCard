@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-import { RegisterInput, LoginInput } from "../schemas/auth.js";
+import { RegisterInput, LoginInput } from "../schemas/auth.ts";
 
 const prisma = new PrismaClient();
 const SALT_ROUNDS = 10;

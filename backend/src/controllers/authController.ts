@@ -3,13 +3,13 @@ import {
 	registerSchema,
 	loginSchema,
 	refreshTokenSchema,
-} from "../schemas/auth.js";
+} from "../schemas/auth.ts";
 import {
 	registerUser,
 	loginUser,
 	getUserById,
-} from "../services/authService.js";
-import { generateTokens, verifyRefreshToken } from "../utils/jwt.js";
+} from "../services/authService.ts";
+import { generateTokens, verifyRefreshToken } from "../utils/jwt.ts";
 import { ZodError } from "zod";
 
 export async function register(req: Request, res: Response): Promise<void> {

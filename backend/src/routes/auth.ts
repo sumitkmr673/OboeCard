@@ -4,8 +4,8 @@ import {
 	login,
 	refreshToken,
 	me,
-} from "../controllers/authController.js";
-import { authMiddleware } from "../middleware/auth.js";
+} from "../controllers/authController.ts";
+import { authMiddleware } from "../middleware/auth.ts";
 
 const router = Router();
 

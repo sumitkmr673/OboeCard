@@ -4,7 +4,7 @@ import {
 	recordCardReview,
 	startStudySession,
 	endStudySession,
-} from "../services/progressService.js";
+} from "../services/progressService.ts";
 
 const reviewSchema = z.object({
 	cardId: z.string(),
