@@ -4,6 +4,8 @@ import helmet from "helmet";
 import compression from "compression";
 import morgan from "morgan";
 import "dotenv/config";
+import authRoutes from "./routes/auth.js";
+import { errorHandler } from "./middleware/auth.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -26,26 +28,16 @@ app.get("/health", (req, res) => {
 	res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
+// Routes
+app.use("/api/auth", authRoutes);
+
 // TODO: Add routes
-// app.use('/api/auth', authRoutes);
 // app.use('/api/cards', cardRoutes);
 // app.use('/api/progress', progressRoutes);
 // app.use('/api/users', userRoutes);
 
 // Error handling
-app.use(
-	(
-		err: any,
-		req: express.Request,
-		res: express.Response,
-		next: express.NextFunction,
-	) => {
-		console.error(err);
-		res.status(err.status || 500).json({
-			error: err.message || "Internal server error",
-		});
-	},
-);
+app.use(errorHandler);
 
 // Start server
 app.listen(PORT, () => {

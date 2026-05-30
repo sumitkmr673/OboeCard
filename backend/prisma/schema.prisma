@@ -75,17 +75,17 @@ model Card {
   
   // Back (explanation)
   meaning         String?         // English meaning
-  examples        String[]        // JSON array of example sentences
+  examples        String[]        @default([])  // JSON array of example sentences
   
   // Kanji specific
   strokeCount     Int?
   strokeOrder     String?         // URL or SVG path
   mnemonics       String?
-  radicals        String[]?       // For kanji decomposition
+  radicals        String[]        @default([])  // For kanji decomposition
   
   // Metadata
   frequency       ContentFrequency  @default(COMMON) // COMMON | INTERMEDIATE | RARE
-  tags            String[]        // ["hiragana", "vowels", "business", etc]
+  tags            String[]        @default([])  // ["hiragana", "vowels", "business", etc]
   audioUrl        String?         // Pronunciation audio
   
   // Content management
