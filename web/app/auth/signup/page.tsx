@@ -19,7 +19,7 @@ export default function SignupPage() {
 
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
-	const [name, setName] = React.useState("");
+	const [username, setUsername] = React.useState("");
 	const [error, setError] = React.useState<string | null>(null);
 	const [loading, setLoading] = React.useState(false);
 
@@ -32,7 +32,7 @@ export default function SignupPage() {
 			const res = await fetch(`${API_URL}/api/auth/register`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ email, password, name: name || undefined }),
+				body: JSON.stringify({ email, password, username }),
 			});
 
 			if (!res.ok) {
@@ -60,13 +60,14 @@ export default function SignupPage() {
 
 			<form onSubmit={onSubmit} className="space-y-3">
 				<label className="block">
-					<span className="text-sm">Name (optional)</span>
+					<span className="text-sm">Username (min 3 chars)</span>
 					<input
 						className="mt-1 w-full border rounded px-3 py-2"
 						type="text"
-						autoComplete="name"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
+						autoComplete="username"
+						value={username}
+						onChange={(e) => setUsername(e.target.value)}
+						required
 					/>
 				</label>
 
