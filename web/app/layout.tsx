@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import React from "react";
+import { Providers } from "./providers";
+import { Nav } from "./_components/Nav";
 
 export const metadata: Metadata = {
 	title: "Flashcard Platform - Learn Japanese",
@@ -15,7 +17,12 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<body>{children}</body>
+			<body>
+				<Providers>
+					<Nav />
+					{children}
+				</Providers>
+			</body>
 		</html>
 	);
 }
