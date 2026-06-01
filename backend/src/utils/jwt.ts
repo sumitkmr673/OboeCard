@@ -1,8 +1,20 @@
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "secret-key";
-const JWT_REFRESH_SECRET =
-	process.env.JWT_REFRESH_SECRET || "refresh-secret-key";
+const JWT_SECRET_RAW = process.env.JWT_SECRET;
+const JWT_REFRESH_SECRET_RAW = process.env.JWT_REFRESH_SECRET;
+
+if (!JWT_SECRET_RAW) {
+	throw new Error("JWT_SECRET environment variable is required but not set.");
+}
+if (!JWT_REFRESH_SECRET_RAW) {
+	throw new Error(
+		"JWT_REFRESH_SECRET environment variable is required but not set.",
+	);
+}
+
+// After the guards above, these are guaranteed to be strings at runtime
+const JWT_SECRET: string = JWT_SECRET_RAW;
+const JWT_REFRESH_SECRET: string = JWT_REFRESH_SECRET_RAW;
 
 export interface JWTPayload {
 	userId: string;

@@ -38,6 +38,8 @@ export default function LearnPage() {
 	const [error, setError] = React.useState<string | null>(null);
 	const [stats, setStats] = React.useState<StatsResponse | null>(null);
 	const [submitting, setSubmitting] = React.useState(false);
+	// Tracks when the current card was displayed — used for accurate response time
+	const cardShownAt = React.useRef<number>(Date.now());
 
 	const currentCard = cards[currentIndex] ?? null;
 	const frontText =
@@ -50,6 +52,12 @@ export default function LearnPage() {
 				.filter(Boolean)
 				.join(" · ") || "—"
 		: "";
+
+	// Reset the timer whenever the card index changes
+	React.useEffect(() => {
+		cardShownAt.current = Date.now();
+		setFlipped(false);
+	}, [currentIndex]);
 
 	React.useEffect(() => {
 		if (!accessToken) {
@@ -93,6 +101,8 @@ export default function LearnPage() {
 	async function submitReview(quality: number) {
 		if (!currentCard) return;
 
+		const responseTime = Date.now() - cardShownAt.current;
+
 		setSubmitting(true);
 		try {
 			const res = await fetch(`${API_URL}/api/progress/review`, {
@@ -104,7 +114,7 @@ export default function LearnPage() {
 				body: JSON.stringify({
 					cardId: currentCard.id,
 					quality,
-					responseTime: 5000,
+					responseTime,
 				}),
 			});
 
@@ -114,7 +124,7 @@ export default function LearnPage() {
 
 			if (currentIndex < cards.length - 1) {
 				setCurrentIndex(currentIndex + 1);
-				setFlipped(false);
+				// flipped is reset by the currentIndex effect above
 			} else {
 				setError("All cards reviewed! Great job! 🎉");
 			}

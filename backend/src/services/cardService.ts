@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "../lib/prisma.ts";
 
 export async function getCardsByLevel(level: number) {
 	const cards = await prisma.card.findMany({
@@ -122,4 +120,34 @@ export async function getUserLevelProgress(userId: string, level: number) {
 		progressPercent:
 			studiedCards > 0 ? (masteredCards / studiedCards) * 100 : 0,
 	};
+}
+
+/**
+ * Aggregate stats for the user's study dashboard.
+ * Returns total, learned, due-today and new card counts.
+ */
+export async function getUserCardStats(userId: string) {
+	const now = new Date();
+
+	const [total, learned, due, newCards] = await prisma.$transaction([
+		// Total cards that have any progress record for this user
+		prisma.cardProgress.count({ where: { userId } }),
+
+		// Cards marked MASTERED
+		prisma.cardProgress.count({ where: { userId, status: "MASTERED" } }),
+
+		// Cards whose nextReviewDue is in the past (overdue)
+		prisma.cardProgress.count({
+			where: { userId, nextReviewDue: { lte: now } },
+		}),
+
+		// Cards in the DB the user has never touched
+		prisma.card.count({
+			where: {
+				cardProgress: { none: { userId } },
+			},
+		}),
+	]);
+
+	return { total, learned, due, new: newCards };
 }

@@ -5,6 +5,7 @@ import {
 	getUserDueCards,
 	getNewCardsForUser,
 	getUserLevelProgress,
+	getUserCardStats,
 } from "../services/cardService.ts";
 
 export async function getCards(req: Request, res: Response): Promise<void> {
@@ -100,6 +101,16 @@ export async function getLevelProgress(
 		const progress = await getUserLevelProgress(userId, parseInt(level));
 
 		res.json(progress);
+	} catch (error: any) {
+		res.status(500).json({ error: error.message });
+	}
+}
+
+export async function getStats(req: Request, res: Response): Promise<void> {
+	try {
+		const userId = (req as any).userId;
+		const stats = await getUserCardStats(userId);
+		res.json(stats);
 	} catch (error: any) {
 		res.status(500).json({ error: error.message });
 	}

@@ -1,11 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../lib/prisma.ts";
 import {
 	calculateSRS,
 	getNextReviewDate,
 	calculateMastery,
 } from "../utils/srs.ts";
-
-const prisma = new PrismaClient();
 
 export interface ReviewInput {
 	cardId: string;
@@ -185,13 +183,21 @@ export async function endStudySession(userId: string) {
 		},
 	});
 
-	// Update user stats
-	await prisma.userStats.update({
+	// Update user stats — upsert guards against missing UserStats row
+	await prisma.userStats.upsert({
 		where: { userId },
-		data: {
-			totalStudyMinutes: {
-				increment: durationMinutes,
-			},
+		update: {
+			cardsStudied: { increment: session.sessionDetails.length },
+			correctAnswers: { increment: session.sessionDetails.filter((d) => d.isCorrect).length },
+			totalAnswers: { increment: session.sessionDetails.length },
+			totalStudyMinutes: { increment: durationMinutes },
+		},
+		create: {
+			userId,
+			cardsStudied: session.sessionDetails.length,
+			correctAnswers: session.sessionDetails.filter((d) => d.isCorrect).length,
+			totalAnswers: session.sessionDetails.length,
+			totalStudyMinutes: durationMinutes,
 		},
 	});
 
