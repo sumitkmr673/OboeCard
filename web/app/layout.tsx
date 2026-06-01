@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import React from "react";
+
+import "./globals.css";
 import { Providers } from "./providers";
 import { Nav } from "./_components/Nav";
 
@@ -17,7 +19,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<body>
+			<body className="app">
 				<Providers>
 					<Nav />
 					{children}

@@ -10,37 +10,37 @@ export function Nav() {
 	const signOut = useAuthStore((s) => s.signOut);
 
 	return (
-		<nav className="w-full border-b px-4 py-3 flex items-center justify-between">
-			<div className="flex items-center gap-4">
-				<Link href="/" className="font-semibold">
-					Flashcard
-				</Link>
-				<Link href="/learn" className="text-sm">
-					Learn
-				</Link>
-			</div>
+		<nav className="nav">
+			<div className="container nav__inner">
+				<div className="nav__links">
+					<Link href="/" className="nav__brand">
+						Flashcard
+					</Link>
+					<Link href="/learn" className="nav__link">
+						Learn
+					</Link>
+				</div>
 
-			<div className="flex items-center gap-3">
 				{user ? (
-					<>
-						<span className="text-sm text-gray-600">{user.email}</span>
+					<div className="nav__links">
+						<span className="muted">{user.email}</span>
 						<button
 							type="button"
 							onClick={() => signOut()}
-							className="text-sm underline"
+							className="button button--ghost"
 						>
 							Sign out
 						</button>
-					</>
+					</div>
 				) : (
-					<>
-						<Link href="/auth/login" className="text-sm underline">
+					<div className="nav__links">
+						<Link href="/auth/login" className="nav__link">
 							Log in
 						</Link>
-						<Link href="/auth/signup" className="text-sm underline">
+						<Link href="/auth/signup" className="button button--soft">
 							Sign up
 						</Link>
-					</>
+					</div>
 				)}
 			</div>
 		</nav>

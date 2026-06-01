@@ -1,0 +1,310 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	min-height: 100%;
+}
+
+body {
+	font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+	color: #1f2a24;
+	background: #f6f5f2;
+	line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+p {
+	margin: 0;
+}
+
+h1 {
+	font-size: 2rem;
+	font-weight: 600;
+}
+
+h3 {
+	font-size: 1.05rem;
+	font-weight: 600;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+button,
+input {
+	font-family: inherit;
+}
+
+.app {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+.container {
+	width: min(1040px, 92%);
+	margin: 0 auto;
+}
+
+.page {
+	padding: 40px 0 64px;
+}
+
+.stack {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.muted {
+	color: #5f6b63;
+}
+
+.nav {
+	position: sticky;
+	top: 0;
+	background: rgba(246, 245, 242, 0.92);
+	backdrop-filter: blur(12px);
+	border-bottom: 1px solid #e6e2dc;
+	z-index: 10;
+}
+
+.nav__inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 16px 0;
+}
+
+.nav__brand {
+	font-weight: 600;
+	letter-spacing: 0.2px;
+}
+
+.nav__links {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.nav__link {
+	font-size: 0.95rem;
+	color: #3a4a40;
+}
+
+.hero {
+	display: grid;
+	gap: 32px;
+	align-items: center;
+	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.hero__title {
+	font-size: clamp(2rem, 3vw, 2.8rem);
+	line-height: 1.2;
+	margin: 0;
+}
+
+.hero__card {
+	padding: 32px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 12px;
+}
+
+.hero__label {
+	font-size: 0.85rem;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	color: #728074;
+}
+
+.hero__character {
+	font-size: 3rem;
+	font-weight: 600;
+}
+
+.hero__answer {
+	font-size: 1rem;
+	color: #728074;
+}
+
+.button-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+.button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 12px 20px;
+	border-radius: 999px;
+	border: 1px solid transparent;
+	background: #8aa398;
+	color: #ffffff;
+	font-size: 0.95rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.button:hover {
+	transform: translateY(-1px);
+}
+
+.button--ghost {
+	background: transparent;
+	color: #3a4a40;
+	border-color: #cfd6cf;
+}
+
+.button--soft {
+	background: #e9efe9;
+	color: #3a4a40;
+	border-color: #d7e0d7;
+}
+
+.card {
+	background: #ffffff;
+	border: 1px solid #e6e2dc;
+	border-radius: 18px;
+	box-shadow: 0 18px 40px rgba(28, 36, 31, 0.08);
+}
+
+.feature-grid {
+	margin-top: 40px;
+	display: grid;
+	gap: 16px;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.feature-card {
+	padding: 18px;
+}
+
+.form-card {
+	max-width: 440px;
+	margin: 0 auto;
+	padding: 28px;
+}
+
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.label {
+	font-size: 0.9rem;
+	color: #5f6b63;
+}
+
+.input {
+	padding: 12px 14px;
+	border-radius: 12px;
+	border: 1px solid #d8d4ce;
+	background: #fbfaf8;
+	color: #1f2a24;
+}
+
+.input:focus {
+	outline: 2px solid #9eb3a7;
+	border-color: transparent;
+}
+
+.notice {
+	padding: 12px 16px;
+	border-radius: 14px;
+	border: 1px solid #e2d7b6;
+	background: #fff6db;
+	color: #7a5b1e;
+}
+
+.notice--error {
+	border-color: #efc4c4;
+	background: #fdeeee;
+	color: #8b2c2c;
+}
+
+.learn-header {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.pill-group {
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+.pill {
+	padding: 6px 12px;
+	border-radius: 999px;
+	background: #eef1ee;
+	color: #4f5c54;
+	font-size: 0.85rem;
+}
+
+.learn-card {
+	padding: 36px;
+	min-height: 240px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	cursor: pointer;
+}
+
+.learn-card__label {
+	font-size: 0.85rem;
+	color: #728074;
+	margin-bottom: 8px;
+}
+
+.learn-card__text {
+	font-size: 2rem;
+	font-weight: 600;
+}
+
+.rating-grid {
+	display: grid;
+	gap: 12px;
+	grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.rating-button {
+	padding: 12px;
+	border-radius: 14px;
+	border: 1px solid #d8d4ce;
+	background: #f8f7f4;
+	color: #39453d;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.rating-button:hover {
+	background: #eef1ee;
+}
+
+.rating-button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}

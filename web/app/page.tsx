@@ -1,50 +1,54 @@
-"use client";
+import Link from "next/link";
 
 export default function Home() {
 	return (
-		<main className="flex min-h-screen flex-col items-center justify-center p-4">
-			<div className="text-center">
-				<h1 className="text-4xl font-bold mb-4">Flashcard Platform</h1>
-				<p className="text-xl text-gray-600 mb-8">
-					Master Japanese: Hiragana, Katakana, Kanji & More
-				</p>
-
-				<div className="space-y-4">
-					<a
-						href="/learn"
-						className="inline-block px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-					>
-						Start Learning
-					</a>
-					<a
-						href="/auth/signup"
-						className="inline-block px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition ml-4"
-					>
-						Sign Up
-					</a>
-				</div>
-
-				<div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-2xl mx-auto">
-					<div className="p-4 border rounded-lg">
-						<h3 className="font-bold mb-2">📚 Hiragana & Katakana</h3>
-						<p className="text-sm text-gray-600">
-							Master Japanese scripts with adaptive learning
-						</p>
-					</div>
-					<div className="p-4 border rounded-lg">
-						<h3 className="font-bold mb-2">🎌 Kanji & Vocabulary</h3>
-						<p className="text-sm text-gray-600">
-							Learn 2500+ characters with JLPT levels
-						</p>
-					</div>
-					<div className="p-4 border rounded-lg">
-						<h3 className="font-bold mb-2">🎯 Spaced Repetition</h3>
-						<p className="text-sm text-gray-600">
-							Optimal review intervals for retention
-						</p>
+		<main className="page">
+			<section className="container hero">
+				<div className="stack">
+					<p className="muted">Quiet focus. Steady progress.</p>
+					<h1 className="hero__title">Calm Japanese practice, built to last.</h1>
+					<p className="muted">
+						A gentle learning space for Hiragana, Katakana, Kanji, and
+						vocabulary with thoughtful spacing.
+					</p>
+					<div className="button-row">
+						<Link href="/learn" className="button">
+							Start learning
+						</Link>
+						<Link href="/auth/signup" className="button button--ghost">
+							Create account
+						</Link>
 					</div>
 				</div>
-			</div>
+
+				<div className="card hero__card">
+					<div className="hero__label">Today</div>
+					<div className="hero__character">あ</div>
+					<div className="hero__answer">a</div>
+					<div className="muted">Short sessions, clear progress.</div>
+				</div>
+			</section>
+
+			<section className="container feature-grid">
+				<div className="card feature-card">
+					<h3>Balanced pacing</h3>
+					<p className="muted">
+						Review cards at the right time with a calm rhythm.
+					</p>
+				</div>
+				<div className="card feature-card">
+					<h3>Simple focus</h3>
+					<p className="muted">
+						No clutter, just the next card and a clear path forward.
+					</p>
+				</div>
+				<div className="card feature-card">
+					<h3>Gentle progress</h3>
+					<p className="muted">
+						See your momentum build without pressure or noise.
+					</p>
+				</div>
+			</section>
 		</main>
 	);
 }

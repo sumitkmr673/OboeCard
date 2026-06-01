@@ -54,46 +54,49 @@ export default function LoginPage() {
 	}
 
 	return (
-		<main className="max-w-md mx-auto p-6">
-			<h1 className="text-2xl font-semibold mb-4">Log in</h1>
+		<main className="page">
+			<div className="container">
+				<div className="card form-card stack">
+					<div className="stack">
+						<h1>Log in</h1>
+						<p className="muted">Welcome back. Continue your practice.</p>
+					</div>
 
-			<form onSubmit={onSubmit} className="space-y-3">
-				<label className="block">
-					<span className="text-sm">Email</span>
-					<input
-						className="mt-1 w-full border rounded px-3 py-2"
-						type="email"
-						autoComplete="email"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-						required
-					/>
-				</label>
+					<form onSubmit={onSubmit} className="stack">
+						<label className="field">
+							<span className="label">Email</span>
+							<input
+								className="input"
+								type="email"
+								autoComplete="email"
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+								required
+							/>
+						</label>
 
-				<label className="block">
-					<span className="text-sm">Password</span>
-					<input
-						className="mt-1 w-full border rounded px-3 py-2"
-						type="password"
-						autoComplete="current-password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-						required
-					/>
-				</label>
+						<label className="field">
+							<span className="label">Password</span>
+							<input
+								className="input"
+								type="password"
+								autoComplete="current-password"
+								value={password}
+								onChange={(e) => setPassword(e.target.value)}
+								required
+							/>
+						</label>
 
-				{error ? (
-					<p className="text-sm text-red-600 whitespace-pre-wrap">{error}</p>
-				) : null}
+						{error ? (
+							<p className="notice notice--error">{error}</p>
+						) : null}
 
-				<button
-					type="submit"
-					disabled={loading}
-					className="w-full bg-blue-600 text-white rounded px-4 py-2 disabled:opacity-50"
-				>
-					{loading ? "Logging in..." : "Log in"}
-				</button>
-			</form>
+						<button type="submit" disabled={loading} className="button">
+							{loading ? "Logging in..." : "Log in"}
+						</button>
+					</form>
+				</div>
+			</div>
 		</main>
 	);
 }
